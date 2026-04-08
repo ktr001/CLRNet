@@ -95,9 +95,11 @@ class Config:
         check_file_exist(filename)
         if filename.endswith('.py'):
             with tempfile.TemporaryDirectory() as temp_config_dir:
+                # Windows fix: close the file handle before copyfile
                 temp_config_file = tempfile.NamedTemporaryFile(
-                    dir=temp_config_dir, suffix='.py')
+                    dir=temp_config_dir, suffix='.py', delete=False)
                 temp_config_name = osp.basename(temp_config_file.name)
+                temp_config_file.close()
                 shutil.copyfile(filename,
                                 osp.join(temp_config_dir, temp_config_name))
                 temp_module_name = osp.splitext(temp_config_name)[0]

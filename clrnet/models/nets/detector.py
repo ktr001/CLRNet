@@ -11,8 +11,8 @@ class Detector(nn.Module):
         super(Detector, self).__init__()
         self.cfg = cfg
         self.backbone = build_backbones(cfg)
-        self.aggregator = build_aggregator(cfg) if cfg.haskey('aggregator') else None
-        self.neck = build_necks(cfg) if cfg.haskey('neck') else None
+        self.aggregator = build_aggregator(cfg) if 'aggregator' in cfg else None
+        self.neck = build_necks(cfg) if 'neck' in cfg else None
         self.heads = build_heads(cfg)
     
     def get_lanes(self):
